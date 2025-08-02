@@ -38,7 +38,7 @@ module.exports = {
     enabled: false,
   },
   solidity: {
-    version: "0.8.28",
+    version: "0.8.25",
     settings: {
       evmVersion: "paris",
       optimizer: {

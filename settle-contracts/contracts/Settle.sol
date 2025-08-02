@@ -3,9 +3,8 @@ pragma solidity ^0.8.25;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
-contract SplitPayment is Ownable, ReentrancyGuard {
+contract SplitPayment is Ownable {
     IERC20 public immutable token;
     uint256 public groupCounter;
     uint256 public txCounter;
@@ -130,7 +129,7 @@ contract SplitPayment is Ownable, ReentrancyGuard {
         txCounter++;
     }
 
-    function deposit(uint256 txId) external nonReentrant {
+    function deposit(uint256 txId) external {
         Transaction storage txn = allTransactions[txId];
         require(txn.txType == TxType.DEPOSIT, "Invalid tx type");
         require(txn.status == TxStatus.PENDING, "Already completed");
@@ -145,7 +144,7 @@ contract SplitPayment is Ownable, ReentrancyGuard {
         _tryResolve(txn.groupId);
     }
 
-    function claim(uint256 txId) external nonReentrant {
+    function claim(uint256 txId) external  {
         Transaction storage txn = allTransactions[txId];
         require(txn.txType == TxType.CLAIM, "Invalid tx type");
         require(txn.status == TxStatus.PENDING, "Already claimed");
