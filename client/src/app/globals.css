@@ -1,0 +1,186 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Base Colors */
+  --background: #f8fafc;
+  --foreground: #ffffff;
+  
+  /* Primary Colors - Turquoise */
+  --primary: #06B6D4;
+  --primary-light: #67E8F9;
+  --primary-dark: #0891B2;
+  
+  /* Card Colors */
+  --card-bg: #1a2234;
+  --card-hover: #1e293b;
+  
+  /* Accent Colors */
+  --accent-success: #10B981;
+  --accent-error: #EF4444;
+  --accent-warning: #F59E0B;
+  
+  /* Text Colors */
+  --text-primary: #ffffff;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  
+  /* Gradient */
+  --gradient-start: #064E3B;
+  --gradient-end: #0891B2;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--text-primary);
+  background: var(--background);
+  font-family: var(--font-roboto), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Typography System */
+.font-heading {
+  font-family: var(--font-roboto);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+}
+
+.font-body {
+  font-family: var(--font-open-sans);
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.font-numbers {
+  font-family: var(--font-roboto);
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
+}
+
+/* Custom Components */
+.card {
+  background-color: var(--card-bg);
+  border-radius: 1rem;
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  background-color: var(--card-hover);
+}
+
+.balance-card {
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+  border-radius: 1rem;
+  padding: 2rem;
+}
+
+.stats-card {
+  background-color: var(--card-bg);
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+
+.quick-actions {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 1rem;
+  padding: 2rem;
+}
+
+.quick-action-card {
+  background-color: var(--card-bg);
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.quick-action-card:hover {
+  background-color: var(--card-hover);
+  transform: translateY(-2px);
+}
+
+.success-text {
+  color: var(--accent-success);
+}
+
+.error-text {
+  color: var(--accent-error);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Modal and Status Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+.animate-pulse-slow {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Status transition classes */
+.status-transition {
+  transition: all 0.3s ease-in-out;
+}
+
+.status-loading {
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.status-success {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.status-error {
+  animation: fadeIn 0.5s ease-out;
+}
