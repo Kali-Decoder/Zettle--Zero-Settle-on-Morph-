@@ -167,7 +167,7 @@ const SplitChainApp = () => {
       if (chainId === 11155111) {
         try {
           const amt = await fetchClaimAmount();
-          setRedeemAmount(Number(amt) / 1e6);
+          setRedeemAmount(Number(amt) / 1e18);
         } catch {
           setRedeemAmount(0);
         }
@@ -186,7 +186,7 @@ const SplitChainApp = () => {
       setRedeemStatus('success');
       setTimeout(() => setRedeemStatus('idle'), 2000);
       // Refresh redeem amount after successful claim
-      setTimeout(() => fetchClaimAmount().then(amt => setRedeemAmount(Number(amt) / 1e6)), 2000);
+      setTimeout(() => fetchClaimAmount().then(amt => setRedeemAmount(Number(amt) / 1e18)), 2000);
     } catch (error: unknown) {
       setRedeemStatus('error');
       setRedeemError(
@@ -446,7 +446,7 @@ const SplitChainApp = () => {
   const stats = [
     {
       label: "Total Spent",
-      value: `$${(totalSpent / 1e6).toFixed(2)}`,
+      value: `$${(totalSpent / 1e18).toFixed(2)}`,
       change: "+12%", // You can calculate this dynamically if you want
       icon: TrendingUp,
       color: "text-blue-600",
@@ -460,7 +460,7 @@ const SplitChainApp = () => {
     },
     {
       label: "Pending Settlements",
-      value: `$${(pendingSettlements / 1e6).toFixed(2)}`,
+      value: `$${(pendingSettlements / 1e18).toFixed(2)}`,
       change: "-8%", // You can calculate this dynamically if you want
       icon: DollarSign,
       color: "text-orange-600",

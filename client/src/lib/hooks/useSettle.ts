@@ -234,8 +234,8 @@ export function useSettle() {
   };
 
   const handleDeposit = async (
-    transactionId: bigint,
-    groupId: bigint,
+    transactionId: string,
+    groupId: string,
     _amount: number
   ) => {
     if (!contractAddress)
@@ -244,11 +244,7 @@ export function useSettle() {
 
     const _amountInWei = parseUnits(_amount.toString(), 6);
     console.log("Amount in wei:", _amountInWei);
-    // const tx = await sendUsdcToReceiver(_amountInWei);
-    // console.log("tx",tx);
-    // await waitForTransaction(wagmiAdapter.wagmiConfig,{
-    //   hash: tx,
-    // });
+ 
 
     try {
       // Step 1: Approve Settle contract
@@ -258,6 +254,8 @@ export function useSettle() {
         functionName: "allowance",
         args: [address, SETTLE_CONTRACT_ADDRESS[chainId.toString() as ChainId]],
       });
+
+      console.log(allowance,"allowance");
 
       if ((allowance as bigint) < _amountInWei) {
         console.log("Approving USDC to Settle contract...");
@@ -278,16 +276,12 @@ export function useSettle() {
         address: contractAddress,
         abi: SETTLE_ABI,
         functionName: "deposit",
-        args: [transactionId, groupId],
+        args: [transactionId],
       });
 
       await waitForTransaction(wagmiAdapter.wagmiConfig, {
         hash: tx,
       });
-
-  
-      await handleMsgSender(_amountInWei);
-
       console.log("Deposit transaction sent:", tx);
       return tx;
     } catch (error) {

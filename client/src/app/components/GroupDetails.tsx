@@ -173,7 +173,7 @@ const GroupDetails: React.FC<GroupDetailsProps> = ({
       alert("Please select a transaction to settle up.");
       return;
     }
-    if (selectedTransaction.from !== address) {
+    if (selectedTransaction.payer !== address) {
       alert("Wrong address connected to pay");
       return;
     }
@@ -181,10 +181,10 @@ const GroupDetails: React.FC<GroupDetailsProps> = ({
     setSettleUpStatus("loading");
     setTimeout(async () => {
       try {
-        const amountInUSD = Number(selectedTransaction.amount) / 1e6;
+        const amountInUSD = Number(selectedTransaction.amount) / 1e18;
         await handleDeposit(
-          selectedTransaction.transactionId,
-          selectedTransaction.groupId,
+          selectedTransaction.id.toString(),
+          selectedTransaction.groupId.toString(),
           amountInUSD
         );
         setSettleUpStatus("success");
@@ -436,11 +436,11 @@ const GroupDetails: React.FC<GroupDetailsProps> = ({
                   {group.transactions
                     ?.filter(
                       (txn) =>
-                        txn.payment_type === 0 && txn.payment_status === 0
+                        txn.txType === 0 && txn.status === 0
                     )
                     .map((transaction) => (
                       <label
-                        key={transaction.transactionId.toString()}
+                        key={transaction.id.toString()}
                         className="flex items-center justify-between p-3 hover:bg-white rounded-xl transition-colors cursor-pointer border border-gray-200"
                       >
                         <div className="flex items-center space-x-3 flex-1">
@@ -449,22 +449,22 @@ const GroupDetails: React.FC<GroupDetailsProps> = ({
                             name="selectedTransaction"
                             className="w-4 h-4 text-green-600 border-2 border-gray-300 focus:ring-green-500 focus:ring-2"
                             checked={
-                              selectedTransaction?.transactionId ===
-                              transaction.transactionId
+                              selectedTransaction?.id ===
+                              transaction.id
                             }
                             onChange={() => setSelectedTransaction(transaction)}
                           />
                           <div className="flex-1">
                             <p className="font-semibold text-gray-800 text-sm">
-                              {transaction.taskName}
+                              {transaction.task}
                             </p>
                             <p className="text-xs text-gray-600">
-                              From: {formatAddress(transaction.from)}
-                              {transaction.from === address ? " (You)" : ""}
+                              From: {formatAddress(transaction.payer)}
+                              {transaction.payer === address ? " (You)" : ""}
                             </p>
                             <p className="text-xs text-gray-600">
                               Amount: $
-                              {(Number(transaction.amount) / 1e6).toFixed(2)}
+                              {(Number(transaction.amount) / 1e18).toFixed(2)}
                             </p>
                           </div>
                         </div>
@@ -473,7 +473,7 @@ const GroupDetails: React.FC<GroupDetailsProps> = ({
                   {(!group.transactions ||
                     group.transactions.filter(
                       (txn) =>
-                        txn.payment_type === 0 && txn.payment_status === 0
+                        txn.txType === 0 && txn.status === 0
                     ).length === 0) && (
                     <p className="text-gray-500 text-center py-4">
                       No pending deposits available
@@ -488,15 +488,15 @@ const GroupDetails: React.FC<GroupDetailsProps> = ({
                     Selected Transaction
                   </h3>
                   <p className="text-sm text-blue-700">
-                    <strong>Task:</strong> {selectedTransaction.taskName}
+                    <strong>Task:</strong> {selectedTransaction.task}
                   </p>
                   <p className="text-sm text-blue-700">
                     <strong>Amount:</strong> $
-                    {(Number(selectedTransaction.amount) / 1e6).toFixed(2)}
+                    {(Number(selectedTransaction.amount) / 1e18).toFixed(2)}
                   </p>
                   <p className="text-sm text-blue-700">
                     <strong>From:</strong>{" "}
-                    {formatAddress(selectedTransaction.from)}
+                    {formatAddress(selectedTransaction.payer)}
                     {selectedTransaction.from === address ? " (You)" : ""}
                   </p>
                 </div>
@@ -566,7 +566,7 @@ const GroupDetails: React.FC<GroupDetailsProps> = ({
               <p className="text-3xl font-bold">
                 $
                 {group?.inAmount
-                  ? (Number(group.inAmount) / 1e6).toFixed(2)
+                  ? (Number(group.inAmount) / 18).toFixed(2)
                   : "0.00"}
               </p>
             </div>
@@ -642,7 +642,7 @@ const GroupDetails: React.FC<GroupDetailsProps> = ({
                           </h3>
                           <div className="text-right">
                             <p className="text-xl font-bold text-gray-800">
-                              ${(Number(expense.amount) / 1e6).toFixed(2)}
+                              ${(Number(expense.amount) / 1e18).toFixed(2)}
                             </p>
                           </div>
                         </div>

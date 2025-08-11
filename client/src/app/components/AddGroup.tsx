@@ -65,20 +65,36 @@ const AddGroup: React.FC<AddGroupProps> = ({
   // Mock suggested members - in a real app, this would come from contacts or user search
   const suggestedMembers: Member[] = [
     {
-      id: "1",
+      id: "0",
       name: "sneha",
-      email: "alice@example.com",
-      avatar: "AJ",
+      email: "@chiku",
+      avatar: "SN",
       address: "0xB26f59f729590510B56059c7000Da0cB25d4b686",
+    },
+    {
+      id: "1",
+      name: "mukesh",
+      email: "@mukesh12",
+      avatar: "MU",
+      address: "0xdAF0182De86F904918Db8d07c7340A1EfcDF8244",
     },
     {
       id: "2",
       name: "Nikku.dev",
-      email: "bob@example.com",
-      avatar: "BS",
+      email: "@nikku",
+      avatar: "NK",
       address: "0xcfa038455b54714821f291814071161c9870B891",
+    },
+    {
+      id: "2",
+      name: "fredics",
+      email: "@fredics",
+      avatar: "FR",
+      address: "0x79bb9cb96c3f6cac2e06a8fc43e51b020f909c40",
     }
   ];
+
+  
 
   const filteredMembers = suggestedMembers.filter(
     (member) =>
