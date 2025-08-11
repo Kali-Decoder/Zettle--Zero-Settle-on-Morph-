@@ -70,7 +70,7 @@ export function useSettle() {
   const { data: groupId } = useReadContract({
     address: contractAddress,
     abi: SETTLE_ABI,
-    functionName: "groupID",
+    functionName: "groupCounter",
   });
 
   const { data: transactionId } = useReadContract({
@@ -169,8 +169,8 @@ export function useSettle() {
       const tx = await addTask({
         address: contractAddress,
         abi: SETTLE_ABI,
-        functionName: "addTask",
-        args: [taskName, groupId, _amount, selectedMembers],
+        functionName: "createTask",
+        args: [groupId,taskName, _amount, selectedMembers],
       });
       await waitForTransaction(wagmiAdapter.wagmiConfig, {
         hash: tx,
@@ -337,40 +337,46 @@ export function useSettle() {
 
     const maxRetries = 3;
     let lastError: Error | null = null;
-
+    console.log("we are here")
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      console.log("we are here in loop")
       try {
         const groupDetails = await readContract(wagmiAdapter.wagmiConfig, {
           address: contractAddress,
           abi: SETTLE_ABI,
-          functionName: "getGroupDetails",
+          functionName: "getGroup",
           args: [groupId],
           account: address,
         });
+        
         const transactions = await readContract(wagmiAdapter.wagmiConfig, {
           address: contractAddress,
           abi: SETTLE_ABI,
-          functionName: "getGroupTransactions",
+          functionName: "getGroupTxns",
           args: [groupId],
           account: address,
         });
 
-        console.log("groupDetails", groupDetails);
-        console.log("transactions", transactions);
+        console.log(transactions,"transactions")
 
-        if (groupDetails && Array.isArray(groupDetails)) {
+    
+
+
+        if (groupDetails?.name) {
           const _group: GroupDetails = {
-            name: groupDetails[0] as string,
-            desc: groupDetails[1] as string,
-            admin: groupDetails[2] as `0x${string}`,
-            groupId: Number(groupDetails[3]),
-            inAmount: Number(groupDetails[4]),
-            outAmount: Number(groupDetails[5]),
+            name: groupDetails.name as string,
+            desc: groupDetails.description as string,
+            admin: groupDetails.admin as `0x${string}`,
+            groupId: Number(groupId),
+            inAmount: Number(groupDetails.inAmount),
+            outAmount: Number(groupDetails.outAmount),
             isActive: groupDetails[6] as boolean,
-            members: groupDetails[7] as `0x${string}`[],
-            totalMembers: (groupDetails[7] as `0x${string}`[]).length,
+            members: groupDetails.members as `0x${string}`[],
+            totalMembers: (groupDetails.members as `0x${string}`[]).length,
             transactions: transactions as Transaction[],
           };
+
+          console.log(groupDetails,"transactions");
           return _group;
         }
 
@@ -396,16 +402,11 @@ export function useSettle() {
   };
 
   const getGroupsData = async () => {
-    console.log("getGroupsData called");
+   
     if (!contractAddress)
       throw new Error("Contract address not found for this network");
     if (!address) throw new Error("Wallet not connected");
 
-    console.log("getGroupsData called with:", {
-      contractAddress,
-      address,
-      groupId,
-    });
 
     try {
       const maxGroupId = groupId ? Number(groupId) : 0;

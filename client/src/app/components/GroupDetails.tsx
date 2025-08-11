@@ -614,7 +614,7 @@ const GroupDetails: React.FC<GroupDetailsProps> = ({
             {group?.transactions?.length ? (
               group.transactions.map((expense) => (
                 <div
-                  key={expense.transactionId.toString()}
+                  key={expense.id.toString()}
                   className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-200 group"
                 >
                   <div className="flex items-start justify-between">
@@ -622,12 +622,12 @@ const GroupDetails: React.FC<GroupDetailsProps> = ({
                       {/* Transaction Icon */}
                       <div
                         className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm ${
-                          expense.payment_type === 0
+                          expense.txType === 0
                             ? "bg-gradient-to-br from-blue-400 to-blue-500"
                             : "bg-gradient-to-br from-green-400 to-green-500"
                         }`}
                       >
-                        {expense.payment_type === 0 ? (
+                        {expense.txType === 0 ? (
                           <Receipt className="w-6 h-6 text-white" />
                         ) : (
                           <Send className="w-6 h-6 text-white" />
@@ -638,7 +638,7 @@ const GroupDetails: React.FC<GroupDetailsProps> = ({
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between mb-2">
                           <h3 className="font-semibold text-gray-800 text-lg group-hover:text-teal-600 transition-colors">
-                            {expense.taskName}
+                            {expense.task}
                           </h3>
                           <div className="text-right">
                             <p className="text-xl font-bold text-gray-800">
@@ -654,8 +654,8 @@ const GroupDetails: React.FC<GroupDetailsProps> = ({
                               FROM:
                             </span>
                             <span className="text-sm text-gray-700 font-medium">
-                              {formatAddress(expense.from)}
-                              {expense.from === address && (
+                              {formatAddress(expense.payer)}
+                              {expense.payer === address && (
                                 <span className="ml-1 text-xs bg-teal-100 text-teal-700 px-2 py-0.5 rounded-full">
                                   You
                                 </span>
@@ -667,8 +667,8 @@ const GroupDetails: React.FC<GroupDetailsProps> = ({
                               TO:
                             </span>
                             <span className="text-sm text-gray-700 font-medium">
-                              {formatAddress(expense.to)}
-                              {expense.to === address && (
+                              {formatAddress(expense.receiver)}
+                              {expense.receiver === address && (
                                 <span className="ml-1 text-xs bg-teal-100 text-teal-700 px-2 py-0.5 rounded-full">
                                   You
                                 </span>
@@ -681,21 +681,21 @@ const GroupDetails: React.FC<GroupDetailsProps> = ({
                         <div className="flex items-center gap-2">
                           <span
                             className={`px-3 py-1 text-xs font-semibold rounded-full border ${
-                              expense.payment_type === 0
+                              expense.txType === 0
                                 ? "bg-blue-50 text-blue-700 border-blue-200"
                                 : "bg-green-50 text-green-700 border-green-200"
                             }`}
                           >
-                            {expense.payment_type === 0 ? "Deposit" : "Claim"}
+                            {expense.txType === 0 ? "Deposit" : "Claim"}
                           </span>
                           <span
                             className={`px-3 py-1 text-xs font-semibold rounded-full border ${
-                              expense.payment_status === 0
+                              expense.status === 0
                                 ? "bg-yellow-50 text-yellow-700 border-yellow-200"
                                 : "bg-emerald-50 text-emerald-700 border-emerald-200"
                             }`}
                           >
-                            {expense.payment_status === 0
+                            {expense.status === 0
                               ? "Pending"
                               : "Completed"}
                           </span>

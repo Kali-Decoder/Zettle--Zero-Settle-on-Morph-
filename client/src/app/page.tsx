@@ -223,7 +223,6 @@ const SplitChainApp = () => {
         return;
       }
 
-      console.log("getGroupsData", getGroupsData);
 
       setIsLoadingGroups(true);
       setGroupsError(null);
@@ -415,14 +414,14 @@ const SplitChainApp = () => {
     {
       id: "morph-Holesky",
       name: "Morph Holesky",
-      symbol: "USDC",
+      symbol: "USDT",
       color: "bg-blue-600",
       balance: morphTestnetUsdc.data?.formatted,
     },
     {
       id: "morph-mainnet",
       name: "Morph Mainnet",
-      symbol: "USDC",
+      symbol: "USDT",
       color: "bg-purple-500",
       balance: morphMainnetUsdc.data?.formatted,
     },
@@ -643,7 +642,7 @@ const SplitChainApp = () => {
                 <ArrowUpRight className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-sm opacity-90">Arbitrum USDC</p>
+                <p className="text-sm opacity-90">Morph Holesky USDT</p>
                 <p className="text-xl font-semibold">
                   ${Number(morphTestnetUsdc.data?.formatted || 0).toFixed(2)}
                 </p>
