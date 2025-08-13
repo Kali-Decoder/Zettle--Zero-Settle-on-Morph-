@@ -184,7 +184,6 @@ const GroupDetails: React.FC<GroupDetailsProps> = ({
         const amountInUSD = Number(selectedTransaction.amount) / 1e18;
         await handleDeposit(
           selectedTransaction.id.toString(),
-          selectedTransaction.groupId.toString(),
           amountInUSD
         );
         setSettleUpStatus("success");
@@ -566,7 +565,7 @@ const GroupDetails: React.FC<GroupDetailsProps> = ({
               <p className="text-3xl font-bold">
                 $
                 {group?.inAmount
-                  ? (Number(group.inAmount) / 18).toFixed(2)
+                  ? (Number(group.inAmount) / 1e18).toFixed(2)
                   : "0.00"}
               </p>
             </div>

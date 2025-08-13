@@ -858,7 +858,7 @@ const SplitChainApp = () => {
         </div>
         <div className="text-right">
           <p className={`font-semibold ${isDesktop ? "text-xl" : ""}`}>
-            Arbitrum Sepolia
+            Morph Sepolia
           </p>
           <p className="text-xs text-gray-500">
             {group.totalMembers || group.members.length} Members
@@ -1254,13 +1254,13 @@ const SplitChainApp = () => {
                 <ArrowUpRight className="w-4 h-4" />
                 <span className="text-sm">
                   ${Number(morphTestnetUsdc.data?.formatted || 0).toFixed(2)}{" "}
-                  Arbitrum USDC
+                  Morph Sepolia USDC
                 </span>
               </div>
               <div className="flex items-center space-x-2">
                 <ArrowDownLeft className="w-4 h-4" />
                 <span className="text-sm">
-                  ${Number(morphMainnetUsdc.data?.formatted || 0).toFixed(2)} Sepolia
+                  ${Number(morphMainnetUsdc.data?.formatted || 0).toFixed(2)} Morph Holesky
                   USDC
                 </span>
               </div>
@@ -1430,7 +1430,7 @@ const SplitChainApp = () => {
 
   const GroupsTab = () => (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between ">
         <h2 className="text-2xl font-bold text-gray-800">Groups</h2>
         <div className="flex gap-2">
           <button
@@ -1501,7 +1501,7 @@ const SplitChainApp = () => {
 
       {/* Groups List */}
       {address && !isLoadingGroups && (
-        <div className="space-y-4">
+        <div className="space-y-4 overflow-y-auto h-[100vh]">
           {groupsList.length === 0 && !groupsError ? (
             <div className="text-center py-12">
               <div className="text-gray-500 mb-4">

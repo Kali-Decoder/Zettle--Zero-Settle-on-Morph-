@@ -80,13 +80,6 @@ const AddGroup: React.FC<AddGroupProps> = ({
     },
     {
       id: "2",
-      name: "Nikku.dev",
-      email: "@nikku",
-      avatar: "NK",
-      address: "0xcfa038455b54714821f291814071161c9870B891",
-    },
-    {
-      id: "2",
       name: "fredics",
       email: "@fredics",
       avatar: "FR",

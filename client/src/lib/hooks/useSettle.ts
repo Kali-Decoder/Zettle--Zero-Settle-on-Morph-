@@ -163,7 +163,7 @@ export function useSettle() {
       throw new Error("Please select at least one member for the task");
     }
 
-    const _amount = parseUnits(totalAmount.toString(), 6);
+    const _amount = parseUnits(totalAmount.toString(), 18);
 
     try {
       const tx = await addTask({
@@ -235,14 +235,13 @@ export function useSettle() {
 
   const handleDeposit = async (
     transactionId: string,
-    groupId: string,
     _amount: number
   ) => {
     if (!contractAddress)
       throw new Error("Contract address not found for this network");
     if (!address) throw new Error("Wallet not connected");
-
-    const _amountInWei = parseUnits(_amount.toString(), 6);
+    if(!transactionId) throw new Error("Transaction Id Is not there!!!");
+    const _amountInWei = parseUnits(_amount.toString(), 18);
     console.log("Amount in wei:", _amountInWei);
  
 
